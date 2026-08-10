@@ -4,11 +4,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EmployeeService {
-    private EmployeeRepository repository;
-    public EmployeeService(EmployeeRepository repository){
+    private final EmployeeRepository repository;
+    private final EmailService emailService;
+    public EmployeeService(EmployeeRepository repository,EmailService emailService){
         this.repository=repository;
+        this.emailService=emailService;
     }
     public void saveEmployee(){
         repository.save();
+        emailService.sendEmail();
     }
 }
