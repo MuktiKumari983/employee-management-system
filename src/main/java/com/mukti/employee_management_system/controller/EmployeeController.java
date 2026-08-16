@@ -1,14 +1,19 @@
 package com.mukti.employee_management_system.controller;
 
 import com.mukti.employee_management_system.model.Employee;
+import com.mukti.employee_management_system.springcore.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController {
+    private final EmployeeService employeeService;
+    public EmployeeController(EmployeeService employeeService){
+        this.employeeService=employeeService;
+    }
     @GetMapping
     public Employee getEmployees(){
-        return new Employee(1,"Andres Muhlach","IT");
+        return employeeService.getEmployee();
     }
     @PostMapping
     public String addEmployees(){
