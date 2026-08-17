@@ -2,7 +2,7 @@ package com.mukti.employee_management_system.springcore;
 
 import com.mukti.employee_management_system.model.Employee;
 import org.springframework.stereotype.Service;
-
+import java.util.List;
 @Service
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
@@ -20,7 +20,13 @@ public class EmployeeService {
     public void checkEmailService(){
         System.out.println("Email Service "+emailService);
     }
-    public Employee getEmployee(){
+    public List<Employee> getEmployee(){
         return employeeRepository.getEmployee();
+    }
+    public List<Employee> getHighSalaryEmployee(){
+        return employeeRepository.getEmployee().
+                stream()
+                .filter(employee -> employee.getSalary()>=50000)
+                .toList();
     }
 }

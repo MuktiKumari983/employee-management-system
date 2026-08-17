@@ -3,6 +3,7 @@ package com.mukti.employee_management_system.controller;
 import com.mukti.employee_management_system.model.Employee;
 import com.mukti.employee_management_system.springcore.EmployeeService;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/employees")
@@ -12,8 +13,12 @@ public class EmployeeController {
         this.employeeService=employeeService;
     }
     @GetMapping
-    public Employee getEmployees(){
+    public List<Employee> getEmployees(){
         return employeeService.getEmployee();
+    }
+    @GetMapping("/high-salary")
+    public List<Employee> getHighSalaryEmployees(){
+        return employeeService.getHighSalaryEmployee();
     }
     @PostMapping
     public String addEmployees(){
