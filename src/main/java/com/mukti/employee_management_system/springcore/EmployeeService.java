@@ -29,4 +29,13 @@ public class EmployeeService {
                 .filter(employee -> employee.getSalary()>=50000)
                 .toList();
     }
+    public List<Employee> getEmployeesByDepartment(String department){
+        return  employeeRepository.getEmployee().
+                stream()
+                .filter(employee -> employee.getDepartment().equalsIgnoreCase(department))
+                .toList();
+    }
+    public int count(){
+        return employeeRepository.getEmployee().size();
+    }
 }

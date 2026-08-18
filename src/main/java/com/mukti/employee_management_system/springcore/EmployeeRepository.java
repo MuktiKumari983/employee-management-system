@@ -11,19 +11,19 @@ public class EmployeeRepository {
         List<Employee> employees=new ArrayList<>();
         employees.add( new Employee(1,
                 "Mukti",
-                "mukti@example.com",
                 "CSE",
+                "mukti@example.com",
                 50000));
         employees.add(new Employee(2,
                 "Rahul",
-                "rahul@example.com",
                 "IT",
+                "rahul@example.com",
                 60000
                 ));
         employees.add(new Employee(3,
                 "Anjali",
-                "anjali@example.com",
                 "HR",
+                "anjali@example.com",
                 45000));
         return employees;
     }

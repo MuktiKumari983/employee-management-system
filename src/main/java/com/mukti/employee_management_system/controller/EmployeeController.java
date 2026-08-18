@@ -20,6 +20,12 @@ public class EmployeeController {
     public List<Employee> getHighSalaryEmployees(){
         return employeeService.getHighSalaryEmployee();
     }
+    @GetMapping("/department/{department}")
+    public List<Employee> getEmployeesByDepartment(@PathVariable String department){
+        return employeeService.getEmployeesByDepartment(department);
+    }
+    @GetMapping("/count")
+    public int count(){ return employeeService.count();}
     @PostMapping
     public String addEmployees(){
         return "Employee added";
