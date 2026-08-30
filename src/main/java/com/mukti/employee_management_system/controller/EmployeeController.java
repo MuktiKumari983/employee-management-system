@@ -17,11 +17,19 @@ public class EmployeeController {
         return employeeService.getEmployee();
     }
     @GetMapping("/high-salary")
-    public List<Employee> getHighSalaryEmployees(){
+    public List<Employee> getHighSalaryEmployees( ){
         return employeeService.getHighSalaryEmployee();
+    }
+    @GetMapping("/salary")
+    public List<Employee> searchSalaryEmployees(@RequestParam double salary ){
+        return employeeService.searchSalaryEmployee(salary);
     }
     @GetMapping("/department/{department}")
     public List<Employee> getEmployeesByDepartment(@PathVariable String department){
+        return employeeService.getEmployeesByDepartment(department);
+    }
+    @GetMapping("/search")
+    public List<Employee> searchEmployee(@RequestParam(defaultValue = "IT") String department){
         return employeeService.getEmployeesByDepartment(department);
     }
     @GetMapping("/count")

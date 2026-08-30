@@ -29,6 +29,12 @@ public class EmployeeService {
                 .filter(employee -> employee.getSalary()>=50000)
                 .toList();
     }
+    public List<Employee> searchSalaryEmployee(double salary){
+        return employeeRepository.getEmployee().
+                stream()
+                .filter(employee -> employee.getSalary()==salary)
+                .toList();
+    }
     public List<Employee> getEmployeesByDepartment(String department){
         return  employeeRepository.getEmployee().
                 stream()
