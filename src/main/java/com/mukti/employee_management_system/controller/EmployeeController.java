@@ -2,6 +2,9 @@ package com.mukti.employee_management_system.controller;
 
 import com.mukti.employee_management_system.model.Employee;
 import com.mukti.employee_management_system.springcore.EmployeeService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -24,6 +27,14 @@ public class EmployeeController {
     public List<Employee> searchSalaryEmployees(@RequestParam double salary ){
         return employeeService.searchSalaryEmployee(salary);
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<Employee> getEmployeesById(@PathVariable int id){
+        Employee employee= employeeService.getEmployeesById(id);
+        if(employee==null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(employee);
+    }
     @GetMapping("/department/{department}")
     public List<Employee> getEmployeesByDepartment(@PathVariable String department){
         return employeeService.getEmployeesByDepartment(department);
@@ -33,10 +44,11 @@ public class EmployeeController {
         return employeeService.getEmployeesByDepartment(department);
     }
     @GetMapping("/count")
-    public int count(){ return employeeService.count();}
+    public long count(){ return employeeService.count();}
     @PostMapping
-    public String addEmployees(){
-        return "Employee added";
+    public ResponseEntity<Employee> addEmployees(@RequestBody Employee employee){
+        Employee savedEmployee=employeeService.addEmployees(employee);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedEmployee);
     }
     @PutMapping("/{id}")
     public String updateEmployees(@PathVariable int id){
