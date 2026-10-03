@@ -53,4 +53,18 @@ public class EmployeeService {
     public long count(){
         return employeeRepository.count();
     }
+    public Employee updateEmployee(int id, Employee employee){
+        if(!employeeRepository.existsById(id)){
+            return null;
+        }
+        employee.setId(id);
+        return employeeRepository.save(employee);
+    }
+    public boolean deleteEmployee(int id){
+        if(!employeeRepository.existsById(id)){
+            return false;
+        }
+        employeeRepository.deleteById(id);
+        return true;
+    }
 }

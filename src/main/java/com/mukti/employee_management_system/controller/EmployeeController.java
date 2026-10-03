@@ -51,12 +51,20 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedEmployee);
     }
     @PutMapping("/{id}")
-    public String updateEmployees(@PathVariable int id){
-        return "Employee "+id+" updated";
+    public ResponseEntity<Employee> updateEmployees(@PathVariable int id ,@RequestBody Employee employee){
+        Employee updatedEmployee=employeeService.updateEmployee(id,employee);
+        if (updatedEmployee==null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(updatedEmployee);
     }
     @DeleteMapping("/{id}")
-    public String deleteEmployees(@PathVariable int id){
-        return "Employee "+id+" deleted";
+    public ResponseEntity<Void> deleteEmployees(@PathVariable int id){
+        boolean deletedEmployee=employeeService.deleteEmployee(id);
+        if(!deletedEmployee){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.noContent().build();
     }
     @PatchMapping("/{id}")
     public String patchEmployee(@PathVariable int id){
