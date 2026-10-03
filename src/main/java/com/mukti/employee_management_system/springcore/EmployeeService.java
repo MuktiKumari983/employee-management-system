@@ -26,10 +26,7 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
     public List<Employee> getHighSalaryEmployee(){
-        return employeeRepository.findAll().
-                stream()
-                .filter(employee -> employee.getSalary()>=80000)
-                .toList();
+        return employeeRepository.findBySalaryGreaterThanEqual(80000);
     }
     public Employee addEmployees(Employee employee){
         return employeeRepository.save(employee);
@@ -39,16 +36,10 @@ public class EmployeeService {
                 .orElse(null);
     }
     public List<Employee> searchSalaryEmployee(double salary){
-        return employeeRepository.findAll().
-                stream()
-                .filter(employee -> employee.getSalary()==salary)
-                .toList();
+        return employeeRepository.findBySalary(salary);
     }
     public List<Employee> getEmployeesByDepartment(String department){
-        return  employeeRepository.findAll().
-                stream()
-                .filter(employee -> employee.getDepartment().equalsIgnoreCase(department))
-                .toList();
+        return  employeeRepository.findByDepartment(department);
     }
     public long count(){
         return employeeRepository.count();

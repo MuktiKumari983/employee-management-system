@@ -35,8 +35,8 @@ public class EmployeeController {
         }
         return ResponseEntity.ok(employee);
     }
-    @GetMapping("/department/{department}")
-    public List<Employee> getEmployeesByDepartment(@PathVariable String department){
+    @GetMapping("/department")
+    public List<Employee> getEmployeesByDepartment(@RequestParam String department){
         return employeeService.getEmployeesByDepartment(department);
     }
     @GetMapping("/search")
