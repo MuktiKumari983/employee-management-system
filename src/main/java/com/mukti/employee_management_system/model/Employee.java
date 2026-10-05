@@ -24,4 +24,7 @@ public class Employee {
         this.email=email;
         this.salary=salary;
     }
+    public void setId(int id) {
+        this.id = id;
+    }
 }

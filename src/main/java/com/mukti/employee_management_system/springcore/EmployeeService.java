@@ -1,6 +1,7 @@
 package com.mukti.employee_management_system.springcore;
 
 import com.mukti.employee_management_system.model.Employee;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -44,6 +45,7 @@ public class EmployeeService {
     public long count(){
         return employeeRepository.count();
     }
+    @Transactional
     public Employee updateEmployee(int id, Employee employee){
         if(!employeeRepository.existsById(id)){
             return null;
@@ -57,5 +59,14 @@ public class EmployeeService {
         }
         employeeRepository.deleteById(id);
         return true;
+    }
+    @Transactional
+    public Employee updateSalary(int id,double salary){
+        Employee employee=employeeRepository.findById(id).orElse(null);
+        if(employee==null){
+            return null;
+        }
+        employee.setSalary(salary);
+        return employee;
     }
 }

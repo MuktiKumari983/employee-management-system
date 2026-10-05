@@ -66,6 +66,14 @@ public class EmployeeController {
         }
         return ResponseEntity.noContent().build();
     }
+    @PutMapping("/{id}/salary")
+    public ResponseEntity<Employee> updateSalary(@PathVariable int id,@RequestParam double salary){
+        Employee employee=employeeService.updateSalary(id,salary);
+        if(employee==null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(employee);
+    }
     @PatchMapping("/{id}")
     public String patchEmployee(@PathVariable int id){
         return "Employee "+id+" partially updated";
