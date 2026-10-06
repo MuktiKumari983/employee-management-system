@@ -2,6 +2,9 @@ package com.mukti.employee_management_system.springcore;
 
 import com.mukti.employee_management_system.model.Employee;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -69,4 +72,9 @@ public class EmployeeService {
         employee.setSalary(salary);
         return employee;
     }
+    public Page<Employee> getEmployees(int page,int size){
+        Pageable pageable= PageRequest.of(page,size);
+        return employeeRepository.findAll(pageable);
+    }
+
 }

@@ -2,6 +2,7 @@ package com.mukti.employee_management_system.controller;
 
 import com.mukti.employee_management_system.model.Employee;
 import com.mukti.employee_management_system.springcore.EmployeeService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -73,6 +74,10 @@ public class EmployeeController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(employee);
+    }
+    @GetMapping("/page")
+    public ResponseEntity<Page<Employee>> getEmployees(@RequestParam (defaultValue = "0") int page,@RequestParam (defaultValue = "10") int size){
+        return ResponseEntity.ok(employeeService.getEmployees(page,size));
     }
     @PatchMapping("/{id}")
     public String patchEmployee(@PathVariable int id){
