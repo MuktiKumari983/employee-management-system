@@ -1,5 +1,6 @@
 package com.mukti.employee_management_system.exception;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -20,5 +21,10 @@ public class GlobalExceptionHandler {
         response.setMessage("Validation Failed");
         response.setErrors(errors);
         return  ResponseEntity.badRequest().body(response);
+    }
+    @ExceptionHandler(EmployeeNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleEmployeeNotFound(EmployeeNotFoundException ex){
+        ErrorResponse response=new ErrorResponse(404,ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 }

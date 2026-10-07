@@ -1,5 +1,6 @@
 package com.mukti.employee_management_system.springcore;
 
+import com.mukti.employee_management_system.exception.EmployeeNotFoundException;
 import com.mukti.employee_management_system.model.Employee;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
@@ -37,7 +38,7 @@ public class EmployeeService {
     }
     public Employee getEmployeesById( int id){
         return employeeRepository.findById(id)
-                .orElse(null);
+                .orElseThrow(()-> new EmployeeNotFoundException("Employee with id"+id+"not found"));
     }
     public List<Employee> searchSalaryEmployee(double salary){
         return employeeRepository.findBySalary(salary);
