@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/employees")
@@ -47,7 +48,7 @@ public class EmployeeController {
     @GetMapping("/count")
     public long count(){ return employeeService.count();}
     @PostMapping
-    public ResponseEntity<Employee> addEmployees(@RequestBody Employee employee){
+    public ResponseEntity<Employee> addEmployees(@Valid @RequestBody Employee employee){
         Employee savedEmployee=employeeService.addEmployees(employee);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedEmployee);
     }
