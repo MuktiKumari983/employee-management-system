@@ -51,18 +51,15 @@ public class EmployeeService {
     }
     @Transactional
     public Employee updateEmployee(int id, Employee employee){
-        if(!employeeRepository.existsById(id)){
-            return null;
-        }
-        employee.setId(id);
+       Employee existingEmployee=employeeRepository.findById(id).orElseThrow(()-> new EmployeeNotFoundException("Employee with id "+id+" not found"));
+        employee.setId(existingEmployee.getId());
         return employeeRepository.save(employee);
     }
-    public boolean deleteEmployee(int id){
+    public void deleteEmployee(int id){
         if(!employeeRepository.existsById(id)){
-            return false;
+            throw new EmployeeNotFoundException("Employee with id "+id+" not found");
         }
         employeeRepository.deleteById(id);
-        return true;
     }
     @Transactional
     public Employee updateSalary(int id,double salary){

@@ -53,7 +53,7 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedEmployee);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<Employee> updateEmployees(@PathVariable int id ,@RequestBody Employee employee){
+    public ResponseEntity<Employee> updateEmployees(@PathVariable int id ,@Valid @RequestBody Employee employee){
         Employee updatedEmployee=employeeService.updateEmployee(id,employee);
         if (updatedEmployee==null){
             return ResponseEntity.notFound().build();
@@ -62,10 +62,7 @@ public class EmployeeController {
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEmployees(@PathVariable int id){
-        boolean deletedEmployee=employeeService.deleteEmployee(id);
-        if(!deletedEmployee){
-            return ResponseEntity.notFound().build();
-        }
+        employeeService.deleteEmployee(id);
         return ResponseEntity.noContent().build();
     }
     @PutMapping("/{id}/salary")
