@@ -1,13 +1,14 @@
-package com.mukti.employee_management_system.springcore;
+package com.mukti.employee_management_system.service;
 
 import com.mukti.employee_management_system.exception.EmployeeNotFoundException;
 import com.mukti.employee_management_system.model.Employee;
+import com.mukti.employee_management_system.repository.EmployeeRepository;
+import com.mukti.employee_management_system.springcore.ScopeDemo;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 @Service

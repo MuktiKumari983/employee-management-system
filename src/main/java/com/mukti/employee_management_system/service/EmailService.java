@@ -1,4 +1,4 @@
-package com.mukti.employee_management_system.springcore;
+package com.mukti.employee_management_system.service;
 
 import org.springframework.stereotype.Component;
 

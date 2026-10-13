@@ -1,5 +1,6 @@
 package com.mukti.employee_management_system.springcore;
 
+import com.mukti.employee_management_system.service.EmailService;
 import org.springframework.stereotype.Service;
 
 @Service
