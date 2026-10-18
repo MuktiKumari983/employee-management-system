@@ -1,5 +1,6 @@
 package com.mukti.employee_management_system.controller;
 
+import com.mukti.employee_management_system.dto.LoginRequest;
 import com.mukti.employee_management_system.dto.RegisterRequest;
 import com.mukti.employee_management_system.service.AuthService;
 import jakarta.validation.Valid;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.mukti.employee_management_system.model.User;
+
+import javax.sql.rowset.serial.SerialStruct;
 
 @RestController
 @RequestMapping("/auth")
@@ -22,5 +25,10 @@ public class AuthController {
     public ResponseEntity<User> register(@Valid @RequestBody RegisterRequest request){
         User user=authService.register(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    }
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@Valid @RequestBody LoginRequest request){
+        authService.login(request);
+        return ResponseEntity.ok("Login Successful");
     }
 }

@@ -1,7 +1,10 @@
 package com.mukti.employee_management_system.service;
+import com.mukti.employee_management_system.dto.LoginRequest;
 import com.mukti.employee_management_system.dto.RegisterRequest;
 import com.mukti.employee_management_system.model.User;
 import com.mukti.employee_management_system.repository.UserRepository;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -9,9 +12,14 @@ import org.springframework.stereotype.Service;
 public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    public AuthService(UserRepository userRepository,PasswordEncoder passwordEncoder){
+    private final AuthenticationManager authenticationManager;
+    public AuthService(UserRepository userRepository,PasswordEncoder passwordEncoder,AuthenticationManager authenticationManager){
         this.userRepository=userRepository;
         this.passwordEncoder=passwordEncoder;
+        this.authenticationManager=authenticationManager;
+    }
+    public void login(LoginRequest request){
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(),request.getPassword()));
     }
     public User register(RegisterRequest request){
         if(userRepository.existsByUsername(request.getUsername())){
