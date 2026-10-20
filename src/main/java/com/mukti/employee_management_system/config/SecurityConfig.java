@@ -1,6 +1,7 @@
 package com.mukti.employee_management_system.config;
 
 import com.mukti.employee_management_system.security.JwtAuthenticationFilter;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,6 +28,12 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception{
         return  configuration.getAuthenticationManager();
+    }
+    @Bean
+    public FilterRegistrationBean<JwtAuthenticationFilter> jwtAuthenticationFilterFilterRegistrationBean(JwtAuthenticationFilter filter){
+        FilterRegistrationBean<JwtAuthenticationFilter> registration=new FilterRegistrationBean<>(filter);
+        registration.setEnabled(false);
+        return registration;
     }
     private final UserDetailsService userDetailsService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;

@@ -56,6 +56,15 @@ public class EmployeeService {
         employee.setId(existingEmployee.getId());
         return employeeRepository.save(employee);
     }
+    public void testBuilder() {
+        Employee employee = Employee.builder()
+                .name("Builder Test")
+                .email("builder@example.com")
+                .department("CSE")
+                .salary(70000)
+                .build();
+        System.out.println(employee);
+    }
     public void deleteEmployee(int id){
         if(!employeeRepository.existsById(id)){
             throw new EmployeeNotFoundException("Employee with id "+id+" not found");

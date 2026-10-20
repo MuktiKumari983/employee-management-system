@@ -2,6 +2,7 @@ package com.mukti.employee_management_system.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,6 +27,7 @@ public class Employee {
     @Positive(message = "Salary must be greater than 0")
     @Max(value = 100000, message = "Salary cannot be exceed 100000")
     private double salary;
+    @Builder
     public Employee(String name, String department, String email, double salary){
         this.name=name;
         this.department=department;
