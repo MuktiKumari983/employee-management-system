@@ -18,9 +18,22 @@ public class JwtService {
     public String extractUsername(String token){
         return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload().getSubject();
     }
-    public boolean isTokenValid(String token, UserDetails userDetails){
-        String username=extractUsername(token);
-        return userDetails.equals(userDetails.getUsername())&&!isTokenExpired(token);
+    public boolean isTokenValid(String token, UserDetails userDetails) {
+
+        String username = extractUsername(token);
+
+        boolean usernameMatches =
+                username.equals(userDetails.getUsername());
+
+        boolean tokenExpired =
+                isTokenExpired(token);
+
+        System.out.println("JWT username: " + username);
+        System.out.println("DB username: " + userDetails.getUsername());
+        System.out.println("Username matches: " + usernameMatches);
+        System.out.println("Token expired: " + tokenExpired);
+
+        return usernameMatches && !tokenExpired;
     }
     public boolean isTokenExpired(String token){
         Date expiration=Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload().getExpiration();

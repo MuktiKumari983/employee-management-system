@@ -13,6 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 @Configuration
 public class SecurityConfig {
 
@@ -38,8 +41,16 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()).userDetailsService(userDetailsService)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/register", "/auth/login").permitAll()
-                        .requestMatchers("/employees").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/employees/**").hasAnyRole("USER","ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/employees/**").hasAnyRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT,"/employees/**").hasAnyRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE,"/employees/**").hasAnyRole("ADMIN")
                         .anyRequest().authenticated())
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(
+                                new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)
+                        )
+                )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
