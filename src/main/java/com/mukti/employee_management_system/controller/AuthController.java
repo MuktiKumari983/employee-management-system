@@ -2,6 +2,7 @@ package com.mukti.employee_management_system.controller;
 
 import com.mukti.employee_management_system.dto.LoginRequest;
 import com.mukti.employee_management_system.dto.RegisterRequest;
+import com.mukti.employee_management_system.dto.UserResponse;
 import com.mukti.employee_management_system.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -22,9 +23,10 @@ public class AuthController {
         this.authService=authService;
     }
     @PostMapping("/register")
-    public ResponseEntity<User> register(@Valid @RequestBody RegisterRequest request){
+    public ResponseEntity<UserResponse> register(@Valid @RequestBody RegisterRequest request){
         User user=authService.register(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        UserResponse response=new UserResponse(user.getUsername(), user.getRole());
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
     @PostMapping("/login")
     public ResponseEntity<String> login(@Valid @RequestBody LoginRequest request){
