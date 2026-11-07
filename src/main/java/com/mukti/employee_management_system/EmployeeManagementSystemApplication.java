@@ -4,8 +4,13 @@ import com.mukti.employee_management_system.service.EmployeeService;
 import com.mukti.employee_management_system.springcore.ReportService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.ApplicationContext;
+import org.springframework.scheduling.annotation.EnableScheduling;
+
+@EnableCaching
 @SpringBootApplication
+@EnableScheduling
 public class EmployeeManagementSystemApplication {
 
 	public static void main(String[] args) {
