@@ -1,9 +1,12 @@
 package com.mukti.employee_management_system;
 
+import com.mukti.employee_management_system.config.EmployeeProperties;
 import com.mukti.employee_management_system.service.EmployeeService;
 import com.mukti.employee_management_system.springcore.ReportService;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -13,8 +16,14 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableScheduling
 @EnableAsync
-public class EmployeeManagementSystemApplication {
+@EnableConfigurationProperties(EmployeeProperties.class)
+public class EmployeeManagementSystemApplication implements CommandLineRunner {
+    private final EmployeeProperties employeeProperties;
 
+    public EmployeeManagementSystemApplication(
+            EmployeeProperties employeeProperties) {
+        this.employeeProperties = employeeProperties;
+    }
 	public static void main(String[] args) {
 		ApplicationContext context= SpringApplication.run(EmployeeManagementSystemApplication.class, args);
         EmployeeService employeeService=context.getBean(EmployeeService.class);
@@ -22,5 +31,16 @@ public class EmployeeManagementSystemApplication {
         employeeService.checkEmailService();
         reportService.checkService();
 	}
+    @Override
+    public void run(String... args) {
 
+        System.out.println("Company: " +
+                employeeProperties.getCompanyName());
+
+        System.out.println("Maximum Employees: " +
+                employeeProperties.getMaxEmployees());
+
+        System.out.println("Default Department: " +
+                employeeProperties.getDefaultDepartment());
+    }
 }

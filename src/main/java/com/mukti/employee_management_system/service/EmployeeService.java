@@ -1,5 +1,6 @@
 package com.mukti.employee_management_system.service;
 
+import com.mukti.employee_management_system.config.EmployeeProperties;
 import com.mukti.employee_management_system.exception.EmployeeNotFoundException;
 import com.mukti.employee_management_system.model.Employee;
 import com.mukti.employee_management_system.repository.EmployeeRepository;
@@ -20,15 +21,22 @@ public class EmployeeService {
     private final EmailService emailService;
     private final ScopeDemo scopeDemo;
     private final NotificationService notificationService;
-    public EmployeeService(EmployeeRepository employeeRepository,EmailService emailService,ScopeDemo scopeDemo,NotificationService notificationService){
+    private final EmployeeProperties employeeProperties;
+    public EmployeeService(EmployeeRepository employeeRepository,EmailService emailService,ScopeDemo scopeDemo,NotificationService notificationService,EmployeeProperties employeeProperties){
         this.employeeRepository=employeeRepository;
         this.emailService=emailService;
         this.scopeDemo=scopeDemo;
         this.notificationService=notificationService;
+        this.employeeProperties=employeeProperties;
     }
     public void saveEmployee(){
         emailService.sendEmail();
         scopeDemo.checkScope();
+    }
+    public void displayCompanyConfiguration(){
+        System.out.println("Company : "+employeeProperties.getCompanyName());
+        System.out.println("Maximum Employees : "+employeeProperties.getMaxEmployees());
+        System.out.println("Default department: "+employeeProperties.getDefaultDepartment());
     }
     public void checkEmailService(){
         log.info("Email Service "+emailService);
