@@ -19,10 +19,12 @@ public class EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final EmailService emailService;
     private final ScopeDemo scopeDemo;
-    public EmployeeService(EmployeeRepository employeeRepository,EmailService emailService,ScopeDemo scopeDemo){
+    private final NotificationService notificationService;
+    public EmployeeService(EmployeeRepository employeeRepository,EmailService emailService,ScopeDemo scopeDemo,NotificationService notificationService){
         this.employeeRepository=employeeRepository;
         this.emailService=emailService;
         this.scopeDemo=scopeDemo;
+        this.notificationService=notificationService;
     }
     public void saveEmployee(){
         emailService.sendEmail();
@@ -44,6 +46,7 @@ public class EmployeeService {
         log.info("Creating employee with email: {}",employee.getEmail());
         Employee savedEmployee=employeeRepository.save(employee);
         log.info("Employee created successfully with id: {}",savedEmployee.getId());
+        notificationService.sendWelcomeNotification(savedEmployee.getEmail());
         return savedEmployee;
     }
     @Cacheable(value ="employees",key = "#id")
