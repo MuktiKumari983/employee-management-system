@@ -8,7 +8,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import static org.mockito.Mockito.when;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Optional;
@@ -36,5 +38,19 @@ public class EmployeeServiceTest {
     void testGetEmployeeByIdNotFound(){
         when(employeeRepository.findById(100)).thenReturn(Optional.empty());
         assertThrows(EmployeeNotFoundException.class,()->employeeService.getEmployeesById(100));
+    }
+    @Test
+    void testAddEmployee(){
+        Employee employee=new Employee();
+        employee.setName("Mark Kiefer Watson");
+        employee.setEmail("kieferwatson@gmail.com");
+        employee.setDepartment("IT");
+        employee.setSalary(100000);
+        when(employeeRepository.save(any(Employee.class))).thenReturn(employee);
+        Employee result=employeeService.addEmployees(employee);
+        assertNotNull(result);
+        assertEquals("Mark Kiefer Watson",result.getName());
+        verify(employeeRepository,times(1)).save(any(Employee.class));
+
     }
 }
