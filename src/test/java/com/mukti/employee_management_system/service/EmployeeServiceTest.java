@@ -21,6 +21,8 @@ public class EmployeeServiceTest {
     private EmployeeRepository employeeRepository;
     @InjectMocks
     private  EmployeeService employeeService;
+    @Mock
+    private NotificationService notificationService;
     @Test
     void testGetEmployeeById(){
         Employee employee=new Employee();
@@ -52,5 +54,41 @@ public class EmployeeServiceTest {
         assertEquals("Mark Kiefer Watson",result.getName());
         verify(employeeRepository,times(1)).save(any(Employee.class));
 
+    }
+    @Test
+    void testUpdateEmployee(){
+        Employee existing=new Employee();
+        existing.setId(1);
+        existing.setName("Mukti");
+        Employee updated=new Employee();
+        updated.setName("Mukti Watson");
+        updated.setEmail("muktiwatson@gmail.com");
+        updated.setDepartment("IT");
+        updated.setSalary(60000);
+        when(employeeRepository.findById(1)).thenReturn(Optional.of(existing));
+        when(employeeRepository.save(any(Employee.class))).thenReturn(existing);
+        Employee result=employeeService.updateEmployee(1,updated);
+        assertEquals("Mukti Watson",result.getName());
+        verify(employeeRepository).findById(1);
+        verify(employeeRepository).save(any(Employee.class));
+    }
+    @Test
+    void testUpdateEmployeeNotFound(){
+        Employee updated=new Employee();
+        when(employeeRepository.findById(100)).thenReturn(Optional.empty());
+        assertThrows(EmployeeNotFoundException.class,()->employeeService.updateEmployee(100,updated));
+        verify(employeeRepository,never()).save(any(Employee.class));
+    }
+    @Test
+    void testDeleteEmployee(){
+        when(employeeRepository.existsById(1)).thenReturn(true);
+        employeeService.deleteEmployee(1);
+        verify(employeeRepository).deleteById(1);
+    }
+    @Test
+    void testDeleteEmployeeNotFound(){
+        when(employeeRepository.existsById(100)).thenReturn(false);
+        assertThrows(EmployeeNotFoundException.class,()->employeeService.deleteEmployee(100));
+        verify(employeeRepository,never()).deleteById(100);
     }
 }
