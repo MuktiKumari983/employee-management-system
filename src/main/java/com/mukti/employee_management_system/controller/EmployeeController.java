@@ -2,6 +2,8 @@ package com.mukti.employee_management_system.controller;
 
 import com.mukti.employee_management_system.model.Employee;
 import com.mukti.employee_management_system.service.EmployeeService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,10 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/employees")
+@Tag(
+        name="Employee Management",
+        description = "APIs for managing employees"
+)
 public class EmployeeController {
     private final EmployeeService employeeService;
     public EmployeeController(EmployeeService employeeService){
@@ -28,6 +34,11 @@ public class EmployeeController {
     public List<Employee> searchSalaryEmployees(@RequestParam double salary ){
         return employeeService.searchSalaryEmployee(salary);
     }
+
+    @Operation(
+            summary = "Get employee by ID",
+            description = "Retrieves employees using their unique ID"
+    )
     @GetMapping("/{id}")
     public ResponseEntity<Employee> getEmployeesById(@PathVariable int id){
         Employee employee= employeeService.getEmployeesById(id);
@@ -46,6 +57,10 @@ public class EmployeeController {
     }
     @GetMapping("/count")
     public long count(){ return employeeService.count();}
+    @Operation(
+            summary = "Create employee",
+            description = "Creates a new employee record"
+    )
     @PostMapping
     public ResponseEntity<Employee> addEmployees(@Valid @RequestBody Employee employee){
         Employee savedEmployee=employeeService.addEmployees(employee);
